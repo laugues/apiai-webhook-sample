@@ -78,6 +78,9 @@ app.post('/hook', function (req, res) {
 
                     res.json({
                         speech: speech,
+                        data: {
+                            slack: speech
+                        },
                         displayText: speech,
                         source: 'apiai-webhook-sample'
                     });
