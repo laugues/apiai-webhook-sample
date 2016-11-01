@@ -2,7 +2,7 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
-var request = require("request");
+const request = require("request");
 
 
 const app = express();
@@ -38,7 +38,6 @@ app.post('/hook', function (req, res) {
                     qs: {'q': weatherParam, 'format': 'json'}
                 };
 
-                //request(options, weatherCallback);
                 request(options, function (err, response, body) {
                     if (err) {
                         console.log(err);
@@ -100,49 +99,6 @@ app.post('/hook', function (req, res) {
         }
     }
 );
-function weatherCallback(err, response, body) {
-    var speech = "";
-    if (err) {
-        console.log(err);
-        return;
-    }
-    console.log("Get Status response: " + response.statusCode);
-    console.log("Get Body response: " + body);
-    var query = body.query;
-    console.log("query: " + query);
-
-    if (typeof query == 'undefined') {
-        return {};
-    }
-
-    var results = query.results;
-    console.log("query: " + query);
-    if (typeof results == 'undefined') {
-        return {};
-    }
-
-    var channel = results.channel;
-    console.log("query: " + query);
-    if (typeof channel == 'undefined') {
-        return {};
-    }
-
-    var item = channel.item;
-    var location = channel.location;
-    var units = channel.units;
-    if (typeof item == 'undefined' || typeof location == 'undefined' || typeof units == 'undefined') {
-        return {};
-    }
-
-    var condition = item.condition;
-    if (typeof condition == 'undefined') {
-        return {};
-    }
-    speech = "Today in " + location.city + ": " + condition.text + ", the temperature is " + condition.temp + " " + units.temperature;
-    console.log('result: ', speech);
-    return speech;
-}
-
 
 app.listen((process.env.PORT || 5000), function () {
     console.log("Server listening");
