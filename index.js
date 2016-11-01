@@ -79,7 +79,37 @@ app.post('/hook', function (req, res) {
                     res.json({
                         speech: speech,
                         data: {
-                            slack: speech
+                            slack: {
+                                "text": speech,
+                                "attachments": [
+                                    {
+                                        "title": channel.title,
+                                        "title_link": channel.link,
+                                        "color": "#36a64f",
+
+                                        "fields": [
+                                            {
+                                                "title": "Condition",
+                                                "value": "Temp " + condition.temp + " " + units.temperature,
+                                                "short": "false"
+                                            },
+                                            {
+                                                "title": "Wind",
+                                                "value": "Speed: " + channel.wind.speed + ", direction: " + channel.wind.direction,
+                                                "short": "true"
+                                            },
+                                            {
+                                                "title": "Atmosphere",
+                                                "value": "Humidity " + channel.atmosphere.humidity +
+                                                " pressure " + channel.atmosphere.pressure,
+                                                "short": "true"
+                                            }
+                                        ],
+
+                                        "thumb_url": "http://l.yimg.com/a/i/us/we/52/" + condition.code + ".gif"
+                                    }
+                                ]
+                            }
                         },
                         displayText: speech,
                         source: 'apiai-webhook-sample'
